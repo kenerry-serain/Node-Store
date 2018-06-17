@@ -1,0 +1,31 @@
+{
+  "name": "node-store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./bin/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenerry-serain/Node-Store.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kenerry-serain/Node-Store/issues"
+  },
+  "homepage": "https://github.com/kenerry-serain/Node-Store#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "guid": "0.0.12",
+    "http": "0.0.0",
+    "mongoose": "^5.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
+}
