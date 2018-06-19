@@ -2,6 +2,9 @@
 
 const productRepository = require('../repositories/product-Repository');
 const IntegrityKeeper = require('../validators/integritykeeper');
+const azureStorage = require('azure-storage');
+const guid = require('guid');
+const configuration = require('../config');
 
 exports.getAll = ('/', async (request, response, next) => {
     try {
@@ -47,10 +50,25 @@ exports.register = ('/', async (request, response, next) => {
         return;
     }
     try {
+
+        const blobService = azureStorage.createBlobService(configuration.containerConnectionString);
+        let fileName = guid.raw().toString() + '.jpg';
+        let rawData = request.body.image;
+        let matches = rawData.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+        let type = matches[1];
+        let buffer = new Buffer(matches[2], 'base64');
+        console.log('aqui'+matches[1]);
+        blobService.createBlockBlobFromText('product-images', fileName, buffer, {contentType:type},(error, result, response)=>{
+            if(error) //Se der erro colocar uma imagem padrão
+                fileName = 'default-product.jpg';
+        });
+
+        request.body.image = 'https://kenerrynodestore.blob.core.windows.net/product-images/' + fileName;
         await productRepository.registerProduct(request.body);
         return response.status(201).send({ message: 'Produto cadastrado com sucesso' });
     }
     catch (exception) {
+        console.log(exception);
         return TreatException(response, 'Falha ao registrar um produto.');
     }
 });

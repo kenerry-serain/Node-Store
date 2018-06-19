@@ -19,6 +19,11 @@ const schema = new Schema({
         required: true,
         trim: true
     },
+    image:{
+        type: String,
+        required: true,
+        trim: true
+    },
     price:{
         type: Number,
         required: true

@@ -2,6 +2,7 @@
 
 const orderRepository = require('../repositories/order-Repository');
 const guid = require('guid');
+const jwt = require('jsonwebtoken');
 
 exports.getAll = ('/', async (request, response, next) => {
     try {
@@ -17,8 +18,11 @@ exports.getAll = ('/', async (request, response, next) => {
 exports.register = ('/', async (request, response, next) => {
     //No validationg for a while
     try {
+        var token = request.body.token || request.query.token || request.headers['x-access-token'];
+        var data = jwt.decode(token);         
+
         await orderRepository.registerOrder({
-            customer: request.body.customer,
+            customer: data.id,
             number: guid.raw().substring(0,6),
             items: request.body.items
         });
