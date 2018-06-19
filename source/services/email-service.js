@@ -1,8 +1,7 @@
 'use strict';
 
 var configuration = require('../config');
-const sendGridMailService = require('@sendgrid/mail');
-sendGridMailService.setApiKey(configuration.sendGridKey);
+const sendGridMailService = require('sendgrid')(configuration.sendGridKey);
 
 exports.send = async (to, subject, body) => {
     try {
